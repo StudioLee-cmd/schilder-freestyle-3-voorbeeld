@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeritagePaint Voorbeeld — Schilder Utrecht</title>
+  <meta name="description" content="HeritagePaint Voorbeeld is uw vakkundige schilder in Utrecht. Buitenschilderwerk, monumentaal schilderwerk, behangen en kleuradvies. Bel voor een gratis offerte.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo">Heritage<span>Paint</span></a>
+      <nav id="mainNav">
+        <a href="#diensten">Diensten</a>
+        <a href="#projecten">Projecten</a>
+        <a href="#over-ons">Over ons</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Menu openen">
+        <iconify-icon icon="lucide:menu"></iconify-icon>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-particles">
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Nu beschikbaar voor projecten
+      </div>
+      <h1>
+        <span class="glitch" data-text="Kleur nodig?">Kleur nodig?</span><br>
+        Wij schilderen het.
+      </h1>
+      <p>Vakkundige schilders in Utrecht. Van monumentaal erfgoed tot moderne binnenschilderwerk, van behangen tot kleuradvies — duurzaam en met oog voor detail.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">
+          <iconify-icon icon="lucide:paintbrush"></iconify-icon>
+          Gratis offerte
+        </a>
+        <a href="#diensten" class="btn-secondary">
+          <iconify-icon icon="lucide:arrow-down"></iconify-icon>
+          Bekijk diensten
+        </a>
+      </div>
+    </div>
+  </section>
+  <div class="ticker" style="background:var(--color-accent,#f5a623);padding:12px 0;overflow:hidden;">
+    <div style="display:flex;gap:48px;animation:tickerScroll 20s linear infinite;white-space:nowrap;">
+      <span><iconify-icon icon="lucide:paintbrush"></iconify-icon> Buitenschilderwerk</span><span><iconify-icon icon="lucide:palette"></iconify-icon> Binnenschilderwerk</span><span><iconify-icon icon="lucide:landmark"></iconify-icon> Monumentaal</span><span><iconify-icon icon="lucide:spray-can"></iconify-icon> Lakwerk</span><span><iconify-icon icon="lucide:layers"></iconify-icon> Behangen</span><span><iconify-icon icon="lucide:pipette"></iconify-icon> Kleuradvies</span><span><iconify-icon icon="lucide:paintbrush"></iconify-icon> Buitenschilderwerk</span><span><iconify-icon icon="lucide:palette"></iconify-icon> Binnenschilderwerk</span><span><iconify-icon icon="lucide:landmark"></iconify-icon> Monumentaal</span><span><iconify-icon icon="lucide:spray-can"></iconify-icon> Lakwerk</span><span><iconify-icon icon="lucide:layers"></iconify-icon> Behangen</span><span><iconify-icon icon="lucide:pipette"></iconify-icon> Kleuradvies</span>
+    </div>
+  </div>
+  <style>@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}</style>
+  <style>.ticker span{display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:700;color:var(--color-bg,#0a0a0f);text-transform:uppercase;letter-spacing:0.05em;}</style>
+
+
+  <!-- ========== SCROLL-VIDEO: 61 FRAMES ========== -->
+  <section class="scroll-video" id="video-reveal">
+    <div class="scroll-video__container">
+      <canvas class="scroll-video__canvas" id="scrollCanvas"></canvas>
+      <div class="scroll-video__overlay" id="scrollOverlay">
+        <span class="scroll-video__tag">Scroll om te zien</span>
+        <h2 class="scroll-video__title">Van verweerd<br>naar <em>erfgoedwaardig</em></h2>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- ======================== BEFORE / AFTER ======================== -->
+  <section class="ba-section" style="height:100vh;position:relative;overflow:hidden;background:#000;">
+    <div style="width:100%;height:100%;position:relative;">
+      <img src="images/craft.jpg" alt="Na" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
+      <img src="images/hero.jpg" alt="Voor" id="baBefore" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;">
+      <div id="baLabel" style="position:absolute;z-index:3;bottom:10%;left:50%;transform:translateX(-50%);text-align:center;opacity:0;">
+        <span style="display:inline-block;background:var(--color-accent,#C1FF72);color:#0a0a0a;padding:8px 20px;border-radius:99px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Scroll om te zien</span>
+        <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.15;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,0.6);">Van oud naar <em style="color:var(--color-accent,#C1FF72);">nieuw</em></h2>
+      </div>
+    </div>
+  </section>
+<!-- ========== SERVICES ========== -->
+  <section class="services" id="diensten">
+    <div class="container">
+      <div class="section-label"><span class="line"></span> Onze diensten</div>
+      <h2 class="section-title fade-up">Compleet schilderwerk<br>van A tot Z</h2>
+      <p class="section-subtitle fade-up">Van buitenschilderwerk tot monumentale restauratie. Altijd vakkundig uitgevoerd met duurzame materialen.</p>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:home"></iconify-icon>
+          </div>
+          <h3>Buitenschilderwerk</h3>
+          <p>Kozijnen, gevels, daklijsten en boeidelen. Wij beschermen uw woning tegen weer en wind met hoogwaardige buitenverf en een grondige voorbehandeling.</p>
+          <span class="service-counter">01</span>
+        </div>
+        <!-- Service 2 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:paintbrush-2"></iconify-icon>
+          </div>
+          <h3>Binnenschilderwerk</h3>
+          <p>Muren, plafonds, deuren en kozijnen binnenshuis. Van strak latex tot klassiek hoogglans — wij leveren een vlekkeloos resultaat in elke ruimte.</p>
+          <span class="service-counter">02</span>
+        </div>
+        <!-- Service 3 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:landmark"></iconify-icon>
+          </div>
+          <h3>Monumentaal</h3>
+          <p>Specialistisch schilderwerk voor monumentale panden en erfgoed. Met kennis van historische technieken, authentieke kleuren en de juiste vergunningen.</p>
+          <span class="service-counter">03</span>
+        </div>
+        <!-- Service 4 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:sparkles"></iconify-icon>
+          </div>
+          <h3>Lakwerk</h3>
+          <p>Professioneel lakwerk voor deuren, trappen, kasten en meubels. Van zijdeglans tot hoogglans, met een perfecte afwerking zonder strepen of oneffenheden.</p>
+          <span class="service-counter">04</span>
+        </div>
+        <!-- Service 5 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:layers"></iconify-icon>
+          </div>
+          <h3>Behangen</h3>
+          <p>Vliesbehang, fotobehang of klassiek papierbehang — wij behangen elke ruimte strak en zonder luchtbellen. Inclusief advies over materialen en patronen.</p>
+          <span class="service-counter">05</span>
+        </div>
+        <!-- Service 6 -->
+        <div class="service-card fade-up">
+          <div class="service-icon">
+            <iconify-icon icon="lucide:palette"></iconify-icon>
+          </div>
+          <h3>Kleuradvies</h3>
+          <p>Twijfelt u over de juiste kleur? Onze kleuradviseur komt bij u thuis met kleurstalen en adviseert over combinaties die passen bij uw interieur en lichtval.</p>
+          <span class="service-counter">06</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STATS ========== -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item fade-up">
+          <span class="stat-number" data-target="1800">0</span>
+          <span class="stat-text">Projecten afgerond</span>
+        </div>
+        <div class="stat-item fade-up">
+          <span class="stat-number" data-target="22">0</span>
+          <span class="stat-text">Jaar ervaring</span>
+        </div>
+        <div class="stat-item fade-up">
+          <span class="stat-number" data-target="98">0</span>
+          <span class="stat-text">% klanttevredenheid</span>
+        </div>
+        <div class="stat-item fade-up">
+          <span class="stat-number" data-target="35">0</span>
+          <span class="stat-text">Monumenten gerestaureerd</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SPLIT (ABOUT) ========== -->
+  <section class="about" id="over-ons">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="images/team.jpg" alt="Team HeritagePaint" loading="lazy">
+        </div>
+        <div class="about-content">
+          <div class="section-label"><span class="line"></span> Over ons</div>
+          <h2 class="section-title fade-up">Schilders met passie<br>voor vakmanschap</h2>
+          <p class="about-text fade-up">HeritagePaint Voorbeeld is een team van ervaren schilders gevestigd in Utrecht. Al meer dan 22 jaar combineren wij traditioneel vakmanschap met moderne technieken. Van een historisch grachtenpand tot een nieuwbouwwoning — elk project krijgt de aandacht die het verdient.</p>
+          <div class="about-features fade-up">
+            <div class="about-feature">
+              <span class="check"><iconify-icon icon="lucide:check"></iconify-icon></span>
+              Gespecialiseerd in monumentaal erfgoed
+            </div>
+            <div class="about-feature">
+              <span class="check"><iconify-icon icon="lucide:check"></iconify-icon></span>
+              Duurzame en milieuvriendelijke verfsystemen
+            </div>
+            <div class="about-feature">
+              <span class="check"><iconify-icon icon="lucide:check"></iconify-icon></span>
+              10 jaar garantie op buitenschilderwerk
+            </div>
+            <div class="about-feature">
+              <span class="check"><iconify-icon icon="lucide:check"></iconify-icon></span>
+              Persoonlijk kleuradvies aan huis
+            </div>
+          </div>
+          <a href="#contact" class="btn-primary">
+            <iconify-icon icon="lucide:phone"></iconify-icon>
+            Neem contact op
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HORIZONTAL GALLERY ========== -->
+  <section class="gallery-section" id="projecten">
+    <div class="gallery-header container">
+      <div class="section-label"><span class="line"></span> Projecten</div>
+      <h2 class="section-title fade-up">Recent werk</h2>
+      <p class="section-subtitle fade-up">Een selectie van afgeronde schilderprojecten in Utrecht en omgeving.</p>
+    </div>
+    <div class="gallery-pin-wrap" id="galleryPinWrap">
+      <div class="gallery-track" id="galleryTrack">
+        <div class="gallery-slide">
+          <img src="images/project1.jpg" alt="Buitenschilderwerk grachtenpand Utrecht" loading="lazy">
+          <div class="caption">Grachtenpand — Oudegracht</div>
+        </div>
+        <div class="gallery-slide">
+          <img src="images/project2.jpg" alt="Monumentaal schilderwerk Wittevrouwen" loading="lazy">
+          <div class="caption">Monumentaal schilderwerk — Wittevrouwen</div>
+        </div>
+        <div class="gallery-slide">
+          <img src="images/kitchen.jpg" alt="Binnenschilderwerk keuken" loading="lazy">
+          <div class="caption">Binnenschilderwerk — Leidsche Rijn</div>
+        </div>
+        <div class="gallery-slide">
+          <img src="images/detail.jpg" alt="Detail lakwerk kozijnen" loading="lazy">
+          <div class="caption">Lakwerk kozijnen — Tuindorp</div>
+        </div>
+        <div class="gallery-slide">
+          <img src="images/craft.jpg" alt="Vakmanschap schilderwerk" loading="lazy">
+          <div class="caption">Vakmanschap — De Meern</div>
+        </div>
+        <div class="gallery-slide">
+          <img src="images/carousel.jpg" alt="Behangwerk woonkamer" loading="lazy">
+          <div class="caption">Behangwerk — Lombok</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="faq-grid">
+        <div class="faq-left">
+          <div class="section-label"><span class="line"></span> FAQ</div>
+          <h2 class="section-title fade-up">Veelgestelde<br>vragen</h2>
+          <p class="section-subtitle fade-up">Staat uw vraag er niet bij? Neem gerust contact op.</p>
+          <a href="#contact" class="btn-secondary" style="margin-top:1rem">
+            <iconify-icon icon="lucide:message-circle"></iconify-icon>
+            Stel een vraag
+          </a>
+        </div>
+        <div class="faq-items">
+          <div class="faq-item active">
+            <div class="faq-question">
+              <span>Wat kost buitenschilderwerk?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>De kosten voor buitenschilderwerk hangen af van het oppervlak, de staat van het houtwerk en het aantal lagen. Gemiddeld kost een compleet huis schilderen tussen &euro;3.000 en &euro;8.000. Wij maken altijd eerst een vrijblijvende offerte op maat.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Hoe vaak moet ik mijn huis laten schilderen?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>Wij adviseren buitenschilderwerk elke 5 tot 7 jaar te laten vernieuwen. Met onze duurzame verfsystemen en grondige voorbehandeling gaat uw schilderwerk langer mee dan gemiddeld.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Schilderen jullie ook monumentale panden?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>Ja, wij zijn gespecialiseerd in monumentaal schilderwerk. Wij kennen de regels rondom vergunningen, historische kleurstellingen en authentieke technieken zoals kalei en lijnolieverf.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Welke verfmerken gebruiken jullie?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>Wij werken met professionele verfsystemen van Sikkens, Sigma en Wijzonol. Voor monumentale projecten gebruiken we ook gespecialiseerde producten zoals lijnolieverf en kalkverf.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Geven jullie garantie op het schilderwerk?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>Wij geven tot 10 jaar garantie op buitenschilderwerk en 5 jaar op binnenschilderwerk. Bij elke oplevering ontvangt u een garantiecertificaat met onderhoudsinstructies.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Kunnen jullie ook behangen?</span>
+              <span class="faq-icon"><iconify-icon icon="lucide:plus"></iconify-icon></span>
+            </div>
+            <div class="faq-answer">
+              <p>Zeker! Wij behangen alle soorten behang: vliesbehang, fotobehang, glasvezelbehang en traditioneel papierbehang. Inclusief advies over materialen die bij uw ruimte passen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="section-label"><span class="line"></span> Contact</div>
+        <h2 class="fade-up">Klaar voor een nieuwe laag?</h2>
+        <p class="fade-up">Ontvang binnen 24 uur een vrijblijvende offerte. Bel ons of stuur een e-mail.</p>
+        <div class="hero-buttons fade-up">
+          <a href="tel:+31301234567" class="btn-primary">
+            <iconify-icon icon="lucide:phone"></iconify-icon>
+            030 - 123 4567
+          </a>
+          <a href="mailto:info@heritagepaint-voorbeeld.nl" class="btn-secondary">
+            <iconify-icon icon="lucide:mail"></iconify-icon>
+            info@heritagepaint-voorbeeld.nl
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo">Heritage<span>Paint</span></span>
+          <p>Vakkundige schilders in Utrecht. Monumentaal vakmanschap, duurzame materialen en persoonlijk advies.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Diensten</h4>
+          <a href="#diensten">Buitenschilderwerk</a>
+          <a href="#diensten">Binnenschilderwerk</a>
+          <a href="#diensten">Monumentaal</a>
+          <a href="#diensten">Lakwerk</a>
+          <a href="#diensten">Behangen</a>
+        </div>
+        <div class="footer-col">
+          <h4>Bedrijf</h4>
+          <a href="#over-ons">Over ons</a>
+          <a href="#projecten">Projecten</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="tel:+31301234567">030 - 123 4567</a>
+          <a href="mailto:info@heritagepaint-voorbeeld.nl">info@heritagepaint-voorbeeld.nl</a>
+          <a>Utrecht, Nederland</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 HeritagePaint Voorbeeld. Alle rechten voorbehouden.</span>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook"><iconify-icon icon="lucide:facebook"></iconify-icon></a>
+          <a href="#" aria-label="Instagram"><iconify-icon icon="lucide:instagram"></iconify-icon></a>
+          <a href="#" aria-label="LinkedIn"><iconify-icon icon="lucide:linkedin"></iconify-icon></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== STUDIOLEE BADGE ========== -->
+  <a href="https://studiolee.nl" target="_blank" rel="nofollow noopener" class="studiolee-badge">
+    <span class="badge-dot"></span>
+    Speciaal gemaakt voor schilders door StudioLee.nl
+  </a>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ---------- MOBILE MENU ----------
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mainNav = document.getElementById('mainNav');
+    mobileToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+      const icon = mobileToggle.querySelector('.iconify');
+      if (mainNav.classList.contains('open')) {
+        icon.setAttribute('data-icon', 'lucide:x');
+      } else {
+        icon.setAttribute('data-icon', 'lucide:menu');
+      }
+    });
+    mainNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        mobileToggle.querySelector('.iconify').setAttribute('data-icon', 'lucide:menu');
+      });
+    });
+
+    // ---------- SCROLL-VIDEO: 61 FRAME SEQUENCE ----------
+    (function() {
+      const canvas = document.getElementById('scrollCanvas');
+      const overlay = document.getElementById('scrollOverlay');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const frameCount = 121;
+      const frames = [];
+      let loadedCount = 0;
+
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = 'images/frames/frame-' + String(i).padStart(3, '0') + '.jpg';
+        img.onload = function() {
+          loadedCount++;
+          if (loadedCount === 1) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+          }
+        };
+        frames.push(img);
+      }
+
+      gsap.to({ frame: 0 }, {
+        frame: frameCount - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.scroll-video',
+          start: 'top top',
+          end: '+=600%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        },
+        onUpdate: function() {
+          var idx = Math.round(this.targets()[0].frame);
+          if (frames[idx] && frames[idx].complete) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(frames[idx], 0, 0);
+          }
+        }
+      });
+
+      gsap.to(overlay, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: '.scroll-video',
+          start: 'top top',
+          end: '+=30%',
+          scrub: true
+        }
+      });
+    })();
+
+    // ---------- HORIZONTAL GALLERY ----------
+    const galleryTrack = document.getElementById('galleryTrack');
+    const galleryPinWrap = document.getElementById('galleryPinWrap');
+
+    function getScrollAmount() {
+      return galleryTrack.scrollWidth - window.innerWidth;
+    }
+
+    gsap.to(galleryTrack, {
+      x: () => -getScrollAmount(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.gallery-section',
+        start: 'top+=200 top',
+        end: () => '+=' + getScrollAmount(),
+        pin: galleryPinWrap,
+        scrub: 1,
+        invalidateOnRefresh: true,
+      }
+    });
+
+    // ---------- FADE-UP OBSERVER ----------
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+    // ---------- STAT COUNTERS ----------
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          if (el.dataset.counted) return;
+          el.dataset.counted = 'true';
+
+          const duration = 2000;
+          const step = target / (duration / 16);
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            if (target >= 1000) {
+              el.textContent = Math.round(current).toLocaleString('nl-NL') + '+';
+            } else if (target === 98) {
+              el.textContent = Math.round(current) + '%';
+            } else if (target === 35) {
+              el.textContent = Math.round(current) + '+';
+            } else {
+              el.textContent = Math.round(current) + '+';
+            }
+          }, 16);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => statObserver.observe(el));
+
+    // ---------- FAQ ACCORDION ----------
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+      });
+    });
+
+    // ---------- HEADER SCROLL STATE ----------
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.site-header');
+      if (window.scrollY > 50) {
+        header.style.background = 'rgba(15,25,35,.95)';
+      } else {
+        header.style.background = 'rgba(15,25,35,.85)';
+      }
+    });
+
+    // ---------- REFRESH SCROLLTRIGGER ON RESIZE ----------
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+  </script>
+
+
+    // Before/After slider
+    (function() {
+      var before = document.getElementById('baBefore');
+      var label = document.getElementById('baLabel');
+      if (!before || typeof gsap === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
+      var tl = gsap.timeline({
+        scrollTrigger: { trigger: '.ba-section', start: 'top top', end: '+=200%', pin: true, scrub: 0.5, anticipatePin: 1 }
+      });
+      tl.fromTo(before, { clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 100% 0 0)', duration: 1, ease: 'none' });
+      tl.fromTo(label, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.5);
+    })();
+
+</body>
+</html>
